@@ -1,0 +1,10 @@
+{
+  "name": "amplemarket_challenge",
+  "version": "1.0.0",
+  "description": "A chrome extension that adds support for basic templates to Gmail",
+  "main": "index.js",
+  "repository": "https://github.com/fontesrp/amplemarket_challenge",
+  "author": "Rodrigo Fontes",
+  "license": "MIT",
+  "private": true
+}
