@@ -71,8 +71,8 @@ case "$1" in
     buildClient
     ;;
   start)
-    # initBackend
-    # buildClient
+    initBackend
+    buildClient
     startServer
     ;;
   start-dev)
