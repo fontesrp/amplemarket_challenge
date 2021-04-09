@@ -1,0 +1,34 @@
+{
+  "content_scripts": [
+    {
+      "js": [
+        "src/inboxsdk.js",
+        "src/index.js",
+        "src/styles.js"
+      ],
+      "matches": [
+        "https://mail.google.com/*",
+        "https://inbox.google.com/*"
+      ]
+    }
+  ],
+  "inboxSdk": {
+    "apiVersion": 2,
+    "appId": "sdk_rpf_amplemarket_a03b2ce7d2"
+  },
+  "manifest_version": 2,
+  "name": "Amplemarket challenge",
+  "permissions": [
+    "https://mail.google.com/",
+    "https://inbox.google.com/",
+    "https://fonts.gstatic.com/",
+    "https://www.quirksmode.org/"
+  ],
+  "templates": {
+    "iFrameId": "iframe_amplemarket_challenge",
+    "iFrameSrc": "https://www.quirksmode.org/iframetest.html",
+    "iconUrl": "https://fonts.gstatic.com/s/i/materialiconsoutlined/text_snippet/v6/24px.svg",
+    "title": "Reply Templates"
+  },
+  "version": "1.0.0"
+}
