@@ -27,8 +27,10 @@ initBackend() {
     $backendPath/node_modules \
     $backendPath/package.json
 
-  ln -s $PROJECT_ROOT/node_modules $backendPath/node_modules
-  ln -s $PROJECT_ROOT/package.json $backendPath/package.json
+  cp -R \
+    $PROJECT_ROOT/node_modules \
+    $PROJECT_ROOT/package.json \
+    $backendPath/node_modules
 }
 
 startClientDev() {
@@ -64,8 +66,12 @@ case "$1" in
   clean)
     clean
     ;;
-  start)
+  deploy)
     initBackend
+    buildClient
+    ;;
+  start)
+    # initBackend
     # buildClient
     startServer
     ;;
