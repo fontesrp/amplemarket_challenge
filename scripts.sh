@@ -30,7 +30,7 @@ initBackend() {
   cp -R \
     $PROJECT_ROOT/node_modules \
     $PROJECT_ROOT/package.json \
-    $backendPath/node_modules
+    $backendPath
 }
 
 startClientDev() {
