@@ -13,7 +13,7 @@
     "start-dev": "./scripts.sh start-dev"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "14.x.x"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^2.0.0",
