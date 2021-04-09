@@ -1,6 +1,6 @@
 const debug = require('debug')
 
-const project = require('../../package.json')
+const project = require('../../../package.json')
 
 const logger = {
   error: debug(`${project.name}:error`),

@@ -16,10 +16,18 @@ clean() {
   rm -rf \
     $PROJECT_ROOT/node_modules \
     $PROJECT_ROOT/package-lock.json \
-    $PROJECT_ROOT/yarn.lock \
-    $PROJECT_ROOT/backend/node_modules \
-    $PROJECT_ROOT/backend/package-lock.json \
-    $PROJECT_ROOT/backend/yarn.lock
+    $PROJECT_ROOT/yarn.lock
+}
+
+initBackend() {
+  local backendPath=$PROJECT_ROOT/backend
+
+  rm -rf \
+    $backendPath/node_modules \
+    $backendPath/package.json
+
+  ln -s $PROJECT_ROOT/node_modules $backendPath/node_modules
+  ln -s $PROJECT_ROOT/package.json $backendPath/package.json
 }
 
 startClientDev() {
@@ -36,7 +44,7 @@ startClientDev() {
 }
 
 startServer() {
-  DEBUG=backend:* \
+  DEBUG=amplemarket_challenge:* \
   LOGGER_LEVEL=error \
   NODE_ENV=production \
   NODE_PATH=$PROJECT_ROOT/backend/server/ \
@@ -44,7 +52,7 @@ startServer() {
 }
 
 startServerDev() {
-  DEBUG=backend:* \
+  DEBUG=amplemarket_challenge:* \
   LOGGER_LEVEL=debug \
   NODE_ENV=development \
   NODE_PATH=$PROJECT_ROOT/backend/server/ \
@@ -56,10 +64,12 @@ case "$1" in
     clean
     ;;
   start)
+    initBackend
     buildClient
     startServer
     ;;
   start-dev)
+    initBackend
     startServerDev & startClientDev
     ;;
 esac

@@ -165,3 +165,7 @@ yarn.lock
 .pnp
 .pnp.js
 build/
+
+## environment setup
+/backend/package.json
+/backend/node_modules

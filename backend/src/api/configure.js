@@ -1,6 +1,8 @@
 import axios from 'axios'
 import qs from 'qs'
 
+let baseURL = ''
+
 /* eslint-disable no-console */
 if (process.env.NODE_ENV === 'development') {
   axios.interceptors.request.use(
@@ -34,11 +36,12 @@ if (process.env.NODE_ENV === 'development') {
       return Promise.reject(error)
     }
   )
+
+  baseURL = 'http://localhost:3000'
 }
 /* eslint-enable no-console */
 
-// TODO: replace with consult to package.json
-axios.defaults.baseURL = 'http://localhost:3000/api'
+axios.defaults.baseURL = `${baseURL}/api`
 axios.defaults.headers.common.Accept = 'application/json'
 axios.defaults.paramsSerializer = params =>
   qs.stringify(params, { arrayFormat: 'comma', encode: false })
