@@ -6,6 +6,7 @@ buildClient() {
   local originalDir=`pwd`
   cd $PROJECT_ROOT/backend
 
+  DISABLE_ESLINT_PLUGIN=true \
   NODE_PATH=$PROJECT_ROOT/backend \
   node node_modules/.bin/react-scripts build
 

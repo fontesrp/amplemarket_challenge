@@ -16,7 +16,7 @@ const List = () => {
   useEffect(() => {
     fetchTemplates(page)
     // Run only when the component mounts
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, [])
 
   return (
