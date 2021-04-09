@@ -7,6 +7,14 @@
   "author": "Rodrigo Fontes",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "clean": "./scripts.sh clean",
+    "start": "./scripts.sh start",
+    "start-dev": "./scripts.sh start-dev"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "devDependencies": {
     "@react-native-community/eslint-config": "^2.0.0",
     "eslint": "^7.23.0",
