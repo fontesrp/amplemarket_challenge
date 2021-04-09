@@ -30,6 +30,7 @@ export const Container = styled.div`
   flex: 1;
   flex-direction: column;
   max-height: 45px;
+  position: relative;
   ${({ isBeingEdited }) => isBeingEdited && floatingCnotainer};
 `
 

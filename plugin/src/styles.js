@@ -1,15 +1,16 @@
-if (typeof chrome !== 'undefined') {
-  // Make it compatible with Safari
-  window.browser = chrome
-}
+;(() => {
+  if (typeof chrome !== 'undefined') {
+    // Make it compatible with Safari
+    window.browser = chrome
+  }
 
-const manifest = browser.runtime.getManifest()
+  const manifest = browser.runtime.getManifest()
 
-const {
-  templates: { iFrameId }
-} = manifest
+  const {
+    templates: { iFrameId }
+  } = manifest
 
-const css = `
+  const css = `
 #${iFrameId} {
   border: 0;
   height: 450px;
@@ -19,14 +20,15 @@ const css = `
 }
 `
 
-const injectCss = () => {
-  const style = document.createElement('style')
-  style.appendChild(document.createTextNode(css))
-  document.head.appendChild(style)
-}
+  const injectCss = () => {
+    const style = document.createElement('style')
+    style.appendChild(document.createTextNode(css))
+    document.head.appendChild(style)
+  }
 
-if (document.readyState !== 'loading') {
-  injectCss()
-} else {
-  document.addEventListener('DOMContentLoaded', injectCss)
-}
+  if (document.readyState !== 'loading') {
+    injectCss()
+  } else {
+    document.addEventListener('DOMContentLoaded', injectCss)
+  }
+})()

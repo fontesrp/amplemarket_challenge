@@ -1,50 +1,79 @@
-if (typeof chrome !== 'undefined') {
-  // Make it compatible with Safari
-  window.browser = chrome
-}
-
-const manifest = browser.runtime.getManifest()
-
-const {
-  inboxSdk: { apiVersion, appId },
-  templates: { iFrameId, iFrameSrc, iconUrl, title }
-} = manifest
-
-let iFrame
-
-const getIFrame = () => {
-  if (!iFrame) {
-    iFrame = document.createElement('iframe')
-    iFrame.id = iFrameId
-    iFrame.src = iFrameSrc
+;(() => {
+  if (typeof chrome !== 'undefined') {
+    // Make it compatible with Safari
+    window.browser = chrome
   }
-  return iFrame
-}
 
-const onTemplatesButtonClick = evt => {
-  const dropdownIFrame = getIFrame()
-  evt.dropdown.el.appendChild(dropdownIFrame)
-  evt.dropdown.reposition()
-  evt.dropdown.on('destroy', () => dropdownIFrame.parentNode?.removeChild?.(dropdownIFrame))
-}
+  const manifest = browser.runtime.getManifest()
 
-const onRegisterComposeViewHandler = composeView => {
-  const handleIFrameMessage = evt => {
-    const { origin: iFrameOrigin } = new URL(iFrameSrc)
+  const {
+    inboxSdk: { apiVersion, appId },
+    templates: { iFrameId, iFrameSrc, iconUrl, title }
+  } = manifest
 
-    if (evt.origin !== iFrameOrigin) {
-      return
+  let iFrame
+
+  const getIFrame = () => {
+    if (!iFrame) {
+      iFrame = document.createElement('iframe')
+      iFrame.id = iFrameId
+      iFrame.src = iFrameSrc
     }
-    // TODO: treat evt.data
+    return iFrame
   }
 
-  window.addEventListener('message', handleIFrameMessage, false)
+  const handleMessage = ({ composeView, data, type }) => {
+    switch (type) {
+      case 'USE_TEMPLATE':
+        composeView.setBodyHTML(data)
+        break
+      default:
+        break
+    }
+  }
 
-  composeView.addButton({ hasDropdown: true, iconUrl, onClick: onTemplatesButtonClick, title })
+  const onTemplatesButtonClick = evt => {
+    const dropdownIFrame = getIFrame()
+    evt.dropdown.el.appendChild(dropdownIFrame)
+    evt.dropdown.reposition()
+    evt.dropdown.on('destroy', () => dropdownIFrame.parentNode?.removeChild?.(dropdownIFrame))
+  }
 
-  composeView.on('destroy', () => window.removeEventListener('message', handleIFrameMessage, false))
-}
+  const onRegisterComposeViewHandler = composeView => {
+    const handleIFrameMessage = evt => {
+      const { origin: iFrameOrigin } = new URL(iFrameSrc)
 
-InboxSDK.load(apiVersion, appId).then(sdk =>
-  sdk.Compose.registerComposeViewHandler(onRegisterComposeViewHandler)
-)
+      if (evt.origin !== iFrameOrigin) {
+        return
+      }
+      // TODO: treat evt.data
+
+      let message
+
+      try {
+        message = JSON.parse(evt.data)
+      } catch (_) {
+        return
+      }
+
+      handleMessage({ composeView, data: message.data, type: message.type })
+
+      getIFrame().contentWindow.postMessage(
+        JSON.stringify({ type: `${message.type}-response` }),
+        '*'
+      )
+    }
+
+    window.addEventListener('message', handleIFrameMessage, false)
+
+    composeView.addButton({ hasDropdown: true, iconUrl, onClick: onTemplatesButtonClick, title })
+
+    composeView.on('destroy', () =>
+      window.removeEventListener('message', handleIFrameMessage, false)
+    )
+  }
+
+  InboxSDK.load(apiVersion, appId).then(sdk =>
+    sdk.Compose.registerComposeViewHandler(onRegisterComposeViewHandler)
+  )
+})()

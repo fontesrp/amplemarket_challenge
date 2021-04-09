@@ -7,7 +7,6 @@ import { TemplatesControlContext } from 'src/context/TemplatesContext'
 import Item from 'src/screens/Snippets/Footer/Item'
 import NameForm from 'src/screens/Snippets/NameForm'
 
-// TODO: render only if draft has contents
 const Create = () => {
   const { fetchTemplates } = useContext(TemplatesControlContext)
   const theme = useContext(ThemeContext)
