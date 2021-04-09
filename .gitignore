@@ -160,3 +160,8 @@ temp/
 ## Lock files
 package-lock.json
 yarn.lock
+
+## From create-react-app
+.pnp
+.pnp.js
+build/
