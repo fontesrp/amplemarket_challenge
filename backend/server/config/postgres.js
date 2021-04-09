@@ -6,14 +6,19 @@ const TYPE_PARSER_FUNC = val => parseFloat(val, 10)
 
 pg.types.setTypeParser(TYPE_PARSER_OID, TYPE_PARSER_FUNC)
 
-// TODO: get db config from environment variables
-const config = {
-  database: 'amplemarket_challenge',
-  host: 'localhost',
-  password: null,
-  port: 5432,
-  user: 'rfontes'
-}
+const config =
+  process.env.NODE_ENV === 'development'
+    ? {
+        database: 'amplemarket_challenge',
+        host: 'localhost',
+        password: null,
+        port: 5432,
+        user: 'rfontes'
+      }
+    : {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false }
+      }
 
 const pool = new pg.Pool(config)
 

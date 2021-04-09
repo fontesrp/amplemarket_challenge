@@ -1,5 +1,16 @@
+if (typeof chrome !== 'undefined') {
+  // Make it compatible with Safari
+  window.browser = chrome
+}
+
+const manifest = browser.runtime.getManifest()
+
+const {
+  templates: { iFrameId }
+} = manifest
+
 const css = `
-#iframe_amplemarket_challenge {
+#${iFrameId} {
   border: 0;
   height: 450px;
   max-height: 100%;
