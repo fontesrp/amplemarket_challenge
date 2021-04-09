@@ -7,7 +7,7 @@ buildClient() {
   cd $PROJECT_ROOT/backend
 
   NODE_PATH=$PROJECT_ROOT/backend \
-  yarn react-scripts build
+  node node_modules/.bin/react-scripts build
 
   cd $originalDir
 }
@@ -38,7 +38,7 @@ startClientDev() {
   NODE_PATH=$PROJECT_ROOT/backend \
   NODE_ENV=development \
   PORT=3001 \
-  yarn react-scripts start
+  node node_modules/.bin/react-scripts start
 
   cd $originalDir
 }
