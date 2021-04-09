@@ -26,7 +26,7 @@
   ],
   "templates": {
     "iFrameId": "iframe_amplemarket_challenge",
-    "iFrameSrc": "http://localhost:3001/",
+    "iFrameSrc": "https://amplemarket-rfontes.herokuapp.com/",
     "iconUrl": "https://fonts.gstatic.com/s/i/materialiconsoutlined/text_snippet/v6/24px.svg",
     "title": "Snippets"
   },

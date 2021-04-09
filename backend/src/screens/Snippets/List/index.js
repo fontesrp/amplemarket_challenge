@@ -21,7 +21,8 @@ const List = () => {
     const editingId = Number(urlParams.get('id'))
 
     fetchTemplates(isEditing ? editingPage : page).then(
-      () => isEditing && editingId && setEditing({ enable: true, id: editingId })
+      () =>
+        isEditing && editingId && setEditing({ enable: true, id: editingId, keepEditBody: true })
     )
     // Run only when the component mounts
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -4,12 +4,13 @@ import t from 'prop-types'
 
 import api from 'src/api'
 import { TemplatesControlContext } from 'src/context/TemplatesContext'
+import integration from 'src/integration'
 import NameForm from 'src/screens/Snippets/NameForm'
 
 import { Container, Explanation, FormContainer } from './styles'
 
 const EditBox = ({ id, title }) => {
-  const { fetchTemplates } = useContext(TemplatesControlContext)
+  const { fetchTemplates, setEditing } = useContext(TemplatesControlContext)
 
   const isSubmitting = useRef(false)
   const [stage, setStage] = useState('form')
@@ -23,22 +24,21 @@ const EditBox = ({ id, title }) => {
       isSubmitting.current = true
       setStage('submitting')
 
-      // TODO: integration
-      const body = 'testCreateReact'
-
       return (
-        api.templates
-          .update({ body, id, title: newTitle })
+        integration
+          .sendToParent({ type: 'EDIT_GET_BODY' })
+          .then(body => api.templates.update({ body, id, title: newTitle }))
           .then(() => fetchTemplates())
           // eslint-disable-next-line no-alert
           .catch(error => alert(error?.apiMessage || error?.message || error))
           .finally(() => {
             isSubmitting.current = false
             setStage('form')
+            setEditing({ enable: false })
           })
       )
     },
-    [fetchTemplates, id]
+    [fetchTemplates, id, setEditing]
   )
 
   return (

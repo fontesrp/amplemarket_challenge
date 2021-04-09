@@ -4,6 +4,7 @@ import { ThemeContext } from 'styled-components'
 
 import api from 'src/api'
 import { TemplatesControlContext } from 'src/context/TemplatesContext'
+import integration from 'src/integration'
 import Item from 'src/screens/Snippets/Footer/Item'
 import NameForm from 'src/screens/Snippets/NameForm'
 
@@ -33,11 +34,9 @@ const Create = () => {
       isSubmitting.current = true
       setStage('submitting')
 
-      // TODO: integration
-      const body = 'testCreateReact'
-
-      return api.templates
-        .create({ body, title })
+      return integration
+        .sendToParent({ type: 'GET_BODY' })
+        .then(body => api.templates.create({ body, title }))
         .then(() => fetchTemplates())
         .then(() => setStage(null))
         .catch(error => {

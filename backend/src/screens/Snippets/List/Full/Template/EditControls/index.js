@@ -29,7 +29,6 @@ const EditControls = ({ id, isBeingEdited, isEditing }) => {
     )
   }, [fetchTemplates, id])
 
-  // TODO: integration
   const onEditClick = useCallback(
     () => setEditing({ enable: true, id: isBeingEdited ? null : id }),
     [id, isBeingEdited, setEditing]

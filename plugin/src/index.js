@@ -11,6 +11,7 @@
     templates: { iFrameId, iFrameSrc, iconUrl, title }
   } = manifest
 
+  let editing
   let iFrame
 
   const getIFrame = () => {
@@ -19,17 +20,48 @@
       iFrame.id = iFrameId
       iFrame.src = iFrameSrc
     }
+
+    if (!iFrame.parentNode) {
+      const src = new URL(iFrameSrc)
+
+      if (editing?.id) {
+        src.searchParams.append('editing', true)
+        src.searchParams.append('id', editing.id)
+        src.searchParams.append('page', editing.page)
+      }
+
+      iFrame.src = src.toString()
+    }
+
     return iFrame
   }
 
   const handleMessage = ({ composeView, data, type }) => {
+    let responseData
+
     switch (type) {
+      case 'EDIT_TEMPLATE':
+        editing = { id: data.id, page: data.page }
+        composeView.setBodyHTML(data.body)
+        break
+      case 'EDIT_TEMPLATE_FINISH':
+        editing = {}
+        break
+      case 'EDIT_GET_BODY':
+      case 'GET_BODY':
+        responseData = composeView.getHTMLContent()
+        break
       case 'USE_TEMPLATE':
         composeView.setBodyHTML(data)
         break
       default:
         break
     }
+
+    getIFrame().contentWindow.postMessage(
+      JSON.stringify({ data: responseData, type: `${type}-response` }),
+      '*'
+    )
   }
 
   const onTemplatesButtonClick = evt => {
@@ -46,7 +78,6 @@
       if (evt.origin !== iFrameOrigin) {
         return
       }
-      // TODO: treat evt.data
 
       let message
 
@@ -57,11 +88,6 @@
       }
 
       handleMessage({ composeView, data: message.data, type: message.type })
-
-      getIFrame().contentWindow.postMessage(
-        JSON.stringify({ type: `${message.type}-response` }),
-        '*'
-      )
     }
 
     window.addEventListener('message', handleIFrameMessage, false)
