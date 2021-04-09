@@ -26,14 +26,17 @@ const EditBox = ({ id, title }) => {
       // TODO: integration
       const body = 'testCreateReact'
 
-      return api.templates
-        .update({ body, id, title: newTitle })
-        .then(() => fetchTemplates())
-        .catch(error => alert(error?.apiMessage || error?.message || error))
-        .finally(() => {
-          isSubmitting.current = false
-          setStage('form')
-        })
+      return (
+        api.templates
+          .update({ body, id, title: newTitle })
+          .then(() => fetchTemplates())
+          // eslint-disable-next-line no-alert
+          .catch(error => alert(error?.apiMessage || error?.message || error))
+          .finally(() => {
+            isSubmitting.current = false
+            setStage('form')
+          })
+      )
     },
     [fetchTemplates, id]
   )

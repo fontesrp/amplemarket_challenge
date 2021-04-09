@@ -42,6 +42,7 @@ const Create = () => {
         .then(() => fetchTemplates())
         .then(() => setStage(null))
         .catch(error => {
+          // eslint-disable-next-line no-alert
           alert(error.apiMessage)
           setStage('form')
         })

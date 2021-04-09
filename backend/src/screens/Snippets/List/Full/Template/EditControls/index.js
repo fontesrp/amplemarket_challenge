@@ -19,11 +19,14 @@ const EditControls = ({ id, isBeingEdited, isEditing }) => {
   const onDeleteClick = useCallback(() => {
     setIsLoading(true)
 
-    return api.templates
-      .remove({ id })
-      .then(() => fetchTemplates())
-      .catch(error => alert(error?.message || error))
-      .finally(() => setIsLoading(false))
+    return (
+      api.templates
+        .remove({ id })
+        .then(() => fetchTemplates())
+        // eslint-disable-next-line no-alert
+        .catch(error => alert(error?.message || error))
+        .finally(() => setIsLoading(false))
+    )
   }, [fetchTemplates, id])
 
   // TODO: integration

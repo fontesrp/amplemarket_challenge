@@ -18,6 +18,7 @@ const Template = ({ id, preview, title }) => {
   const onClick = useCallback(() => {
     // TODO: integration
     if (!isInEditingMode) {
+      // eslint-disable-next-line no-console
       console.log('clicked!', id)
     }
   }, [id, isInEditingMode])
