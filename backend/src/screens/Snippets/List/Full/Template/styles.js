@@ -11,7 +11,9 @@ export const Article = styled.article`
 const floatingCnotainer = css`
   background-color: white;
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  flex: unset;
   left: 10px;
+  max-height: unset;
   padding: 10px;
   position: absolute;
   right: 10px;

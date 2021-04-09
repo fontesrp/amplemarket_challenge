@@ -8,15 +8,23 @@ import Full from './Full'
 import { Section } from './styles'
 
 const List = () => {
-  const { fetchTemplates } = useContext(TemplatesControlContext)
+  const { fetchTemplates, setEditing } = useContext(TemplatesControlContext)
   const { isLoading, items, paging } = useContext(TemplatesDataContext)
 
   const { page } = paging || {}
 
   useEffect(() => {
-    fetchTemplates(page)
+    const urlParams = new URLSearchParams(window.location.search)
+
+    const isEditing = urlParams.get('editing')
+    const editingPage = Number(urlParams.get('page'))
+    const editingId = Number(urlParams.get('id'))
+
+    fetchTemplates(isEditing ? editingPage : page).then(
+      () => isEditing && editingId && setEditing({ enable: true, id: editingId })
+    )
     // Run only when the component mounts
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

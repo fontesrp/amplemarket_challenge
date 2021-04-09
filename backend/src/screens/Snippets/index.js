@@ -19,7 +19,7 @@ const Snippets = () => {
 
       updateTemplates({ isLoading: true })
 
-      api.templates
+      return api.templates
         .getAll({ page })
         .then(res => {
           const { items, paging } = res.data || {}

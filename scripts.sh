@@ -33,6 +33,17 @@ initBackend() {
     $backendPath
 }
 
+initBackendDev() {
+  local backendPath=$PROJECT_ROOT/backend
+
+  rm -rf \
+    $backendPath/node_modules \
+    $backendPath/package.json
+
+  ln -s $PROJECT_ROOT/node_modules $backendPath/node_modules
+  ln -s $PROJECT_ROOT/package.json $backendPath/package.json
+}
+
 startClientDev() {
   local originalDir=`pwd`
   cd $PROJECT_ROOT/backend
@@ -76,7 +87,7 @@ case "$1" in
     startServer
     ;;
   start-dev)
-    initBackend
+    initBackendDev
     startServerDev & startClientDev
     ;;
 esac

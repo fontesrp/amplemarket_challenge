@@ -38,7 +38,6 @@ module.exports = {
     'no-redeclare': 'error',
     'no-undef': 'warn',
     'no-undefined': 'off',
-    'no-unlimited-disable': 'off',
     'no-unused-expressions': ['error', { allowShortCircuit: true, allowTaggedTemplates: true }],
     'no-unused-vars': ['error', { argsIgnorePattern: '^_', ignoreRestSiblings: true }],
     'react/jsx-boolean-value': 'warn',
